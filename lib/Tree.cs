@@ -206,7 +206,7 @@ namespace Tree
             }
             T.root.Colour = Col.BLACK;
         }
-
+#nullable enable
         /// <summary>
         /// Replace the subtree rooted in the first Node
         /// with the subtree rooted in the second Node
@@ -218,7 +218,7 @@ namespace Tree
         {
             if (u.Parent == null)
                 T.root = v;
-            else if (u == u.Parent.Left)
+            else if (u == (u.Parent).Left)
                 u.Parent.Left = v;
             else
                 u.Parent.Right = v;
@@ -366,6 +366,19 @@ namespace Tree
             }
         }
 
+        private string InOrderDisplayStr(Node current)
+        {
+            string s = "";
+            if (current != null)
+            {
+                s += InOrderDisplayStr(current.Left);
+                s +=$"({current.Val}) ";
+                s += InOrderDisplayStr(current.Right);
+            }
+
+            return s;
+        }
+
         public void DisplayTree()
         {
             if (this.root is null)
@@ -375,6 +388,16 @@ namespace Tree
             }
             else InOrderDisplay(root);
             Console.WriteLine("\n");
+        }
+
+        public string DisplayTreeStr()
+        {
+            if (this.root is null)
+            {
+                Console.WriteLine("The tree is empty! :(");
+                return "";
+            }
+            else return InOrderDisplayStr(root);
         }
 
 
