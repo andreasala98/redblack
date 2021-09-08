@@ -8,10 +8,6 @@ namespace Tree
     /// </summary>
     public class RBTree {
         private Node root;
-        // private static Node nil = new Node(null, null, null);
-        // public static Node Nil {
-        //     get { return nil; }
-        // }
 
         public RBTree (Node r)
         {
@@ -49,7 +45,7 @@ namespace Tree
         /// </summary>
         /// <param name="T">The tree</param>
         /// <param name="x">The pivot of the rotation</param>
-        public static void leftRotation (RBTree T, Node x)
+        private static void leftRotation (RBTree T, Node x)
         {
             if (x.Right == null) throw new ArgumentException($"Node with key {x.Val} must have a right child!");
 
@@ -86,7 +82,7 @@ namespace Tree
         /// <param name="T"> The tree</param>
         /// <param name="x"> Pivot of the rotation</param>
         /// <exception cref="ArgumentException"></exception>
-        public static void rightRotation (RBTree T, Node x)
+        private static void rightRotation (RBTree T, Node x)
         {
             if (x.Left is null) throw new ArgumentException($"Node with key {x.Val} must have a left child!");
 
@@ -117,6 +113,30 @@ namespace Tree
 
         }
 
+#nullable enable
+        public Node? Search(int key)
+        {
+            bool found = false;
+            Node appo = this.root;
+            Node? obj = null;
+
+            while (!found)
+            {
+                if (appo == null) break;
+                if (key < appo.Val) { appo = appo.Left; continue; }
+                if (key > appo.Val) { appo = appo.Right; continue; }
+                if (key == appo.Val)
+                {
+                    found = true;
+                    obj = appo;
+                }
+            }
+
+            if (found ) return obj;
+            else { Console.WriteLine($"Node {key} not found"); return null; }
+        }
+
+#nullable enable
         /// <summary>
         /// Insert a new node on a Red Black Tree. This takes O(lg n)
         /// Note that colours will be automatically balanced
@@ -126,7 +146,7 @@ namespace Tree
         public void Insert (int newnodeVal)
         {
             Node newnode = new Node(newnodeVal);
-            Node y = null;
+            Node? y = null;
             Node x = this.root;
 
             while (x != null){
@@ -222,7 +242,8 @@ namespace Tree
                 u.Parent.Left = v;
             else
                 u.Parent.Right = v;
-            v.Parent = u.Parent;
+            if (v!= null)
+                v.Parent = u.Parent;
         }
 
         /// <summary>
@@ -232,7 +253,8 @@ namespace Tree
         /// <param name="d">The node to be removed</param>
         public void deleteNode(int dVal)
         {
-            Node d = new Node(dVal);
+            Node? d = Search(dVal);
+            if (d==null) return;
             Node y = d;
             Node x;
             Col yOriginalColor = y.Colour;
