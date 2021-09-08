@@ -64,40 +64,6 @@ namespace Tree
             set { colour = value; }
         }
 
-        static readonly int COUNT = 10;
-
-        // Function to print binary tree in 2D
-        // It does reverse inorder traversal
-        private static void print2DUtil(Node root, int space)
-        {
-            // Base case
-            if (root == null)
-                return;
-
-            // Increase distance between levels
-            space += COUNT;
-
-            // Process right child first
-            print2DUtil(root.Right, space);
-
-            // Print current node after space
-            // count
-            Console.Write("\n");
-            for (int i = COUNT; i < space; i++)
-                Console.Write(" ");
-            Console.Write(root.Val + "\n");
-
-            // Process left child
-            print2DUtil(root.Left, space);
-        }
-
-        // Wrapper over print2DUtil()
-        public static void print2D(Node root)
-        {
-            // Pass initial space count as 0
-            print2DUtil(root, 0);
-        }
-
 
         public override string ToString()
         {
@@ -106,7 +72,7 @@ namespace Tree
 
         public bool isLeftChild()
         {
-            if (this.Parent.Left is not null)
+            if (this.Parent.Left != null)
                 if (this == this.Parent.Left)
                     return true;
                 else return false;
@@ -140,4 +106,4 @@ namespace Tree
 
     } //class Node
 
-} //namespace
+}
