@@ -4,7 +4,7 @@ namespace Tree
 {
 
     /// <summary>
-    /// Class representing a red-black tree
+    /// Class representing a red-BLK tree
     /// </summary>
     public class RBTree {
         private Node root;
@@ -138,7 +138,7 @@ namespace Tree
 
 #nullable enable
         /// <summary>
-        /// Insert a new node on a Red Black Tree. This takes O(lg n)
+        /// Insert a new node on a Red BLK Tree. This takes O(lg n)
         /// Note that colours will be automatically balanced
         /// </summary>
         /// <param name="T"> The Tree </param>
@@ -180,11 +180,11 @@ namespace Tree
             {
                 if ((z.Parent).isLeftChild()) // if z parent is a left child
                 {
-                    y = z.Parent.Parent.Right ?? new Node(int.MaxValue, Col.BLACK);
+                    y = z.Parent.Parent.Right ?? new Node(int.MaxValue, Col.BLK);
                     if (y.Colour == Col.RED)
                     {
-                        z.Parent.Colour = Col.BLACK;
-                        y.Colour = Col.BLACK;
+                        z.Parent.Colour = Col.BLK;
+                        y.Colour = Col.BLK;
                         z.Parent.Parent.Colour = Col.RED;
                         z = z.Parent.Parent;
                     }
@@ -195,18 +195,18 @@ namespace Tree
                     }
                     else
                     {
-                        z.Parent.Colour = Col.BLACK;
+                        z.Parent.Colour = Col.BLK;
                         z.Parent.Parent.Colour = Col.RED;
                         rightRotation(T, z.Parent.Parent);
                     }
                 }
                 else  // if z parent is a right child
                 {
-                    y = z.Parent.Parent.Left ?? new Node(int.MaxValue, Col.BLACK);
+                    y = z.Parent.Parent.Left ?? new Node(int.MaxValue, Col.BLK);
                     if (y.Colour == Col.RED)
                     {
-                        z.Parent.Colour = Col.BLACK;
-                        y.Colour = Col.BLACK;
+                        z.Parent.Colour = Col.BLK;
+                        y.Colour = Col.BLK;
                         z.Parent.Parent.Colour = Col.RED;
                         z = z.Parent.Parent;
                     }
@@ -217,21 +217,23 @@ namespace Tree
                     }
                     else
                     {
-                        z.Parent.Colour = Col.BLACK;
+                        z.Parent.Colour = Col.BLK;
                         z.Parent.Parent.Colour = Col.RED;
                         leftRotation(T, z.Parent.Parent);
                     }
                 }
                     
             }
-            T.root.Colour = Col.BLACK;
+            T.root.Colour = Col.BLK;
         }
 #nullable enable
+
+/*
         /// <summary>
         /// Replace the subtree rooted in the first Node
         /// with the subtree rooted in the second Node
         /// </summary>
-        /// <param name="T"> the red-black tree</param>
+        /// <param name="T"> the red-BLK tree</param>
         /// <param name="u"> removed node</param>
         /// <param name="v"> inserted node</param>
         private static void Transplant(RBTree T, Node u, Node v)
@@ -247,7 +249,7 @@ namespace Tree
         }
 
         /// <summary>
-        /// Delete a node from a red-black tree. This takes O(lg n)
+        /// Delete a node from a red-BLK tree. This takes O(lg n)
         /// </summary>
         /// <param name="T">The Tree</param>
         /// <param name="d">The node to be removed</param>
@@ -269,7 +271,7 @@ namespace Tree
                 x = d.Left;
                 Transplant(this, d, d.Left);
             }
-            else                        // two childs: difficult case
+            else                        // two children: difficult case
             {
                 y = subtreeMinimum(d.Right);
                 yOriginalColor = y.Colour;
@@ -293,7 +295,7 @@ namespace Tree
 
             }
 
-            if (yOriginalColor == Col.BLACK)
+            if (yOriginalColor == Col.BLK)
                 FixColorsDelete(this, x);
         }
 
@@ -306,27 +308,27 @@ namespace Tree
         {
             Node w;
 
-            while (x != T.root && x.Colour == Col.BLACK)
+            while (x.Parent is not null && x.Colour == Col.BLK)
             {
                 if (x == x.Parent.Left)
                 {
                     w = x.Parent.Right;
                     if (w.Colour == Col.RED)
                     {
-                        w.Colour = Col.BLACK;
+                        w.Colour = Col.BLK;
                         x.Parent.Colour = Col.RED;
                         leftRotation(T, x.Parent);
                         w = x.Parent.Right;
                     }
 
-                    if (w.Left.Colour == Col.BLACK && w.Right.Colour == Col.BLACK)
+                    if (w.Left.Colour == Col.BLK && w.Right.Colour == Col.BLK)
                     {
                         w.Colour = Col.RED;
                         x = x.Parent;
                     }
-                    else if (w.Right.Colour == Col.BLACK)
+                    else if (w.Right.Colour == Col.BLK)
                     {
-                        w.Left.Colour = Col.BLACK;
+                        w.Left.Colour = Col.BLK;
                         w.Colour = Col.RED;
                         rightRotation(T, w);
                         w = x.Parent.Right;
@@ -334,8 +336,8 @@ namespace Tree
                     else
                     {
                         w.Colour = x.Parent.Colour;
-                        x.Parent.Colour = Col.BLACK;
-                        w.Right.Colour = Col.BLACK;
+                        x.Parent.Colour = Col.BLK;
+                        w.Right.Colour = Col.BLK;
                         leftRotation(T, x.Parent);
                         x = T.root;
                     }
@@ -346,20 +348,20 @@ namespace Tree
                     w = x.Parent.Left;
                     if (w.Colour == Col.RED)
                     {
-                        w.Colour = Col.BLACK;
+                        w.Colour = Col.BLK;
                         x.Parent.Colour = Col.RED;
                         rightRotation(T, x.Parent);
                         w = x.Parent.Left;
                     }
 
-                    if (w.Right.Colour == Col.BLACK && w.Left.Colour == Col.BLACK)
+                    if (w.Right.Colour == Col.BLK && w.Left.Colour == Col.BLK)
                     {
                         w.Colour = Col.RED;
                         x = x.Parent;
                     }
-                    else if (w.Left.Colour == Col.BLACK)
+                    else if (w.Left.Colour == Col.BLK)
                     {
-                        w.Right.Colour = Col.BLACK;
+                        w.Right.Colour = Col.BLK;
                         w.Colour = Col.RED;
                         leftRotation(T, w);
                         w = x.Parent.Left;
@@ -367,16 +369,18 @@ namespace Tree
                     else
                     {
                         w.Colour = x.Parent.Colour;
-                        x.Parent.Colour = Col.BLACK;
-                        w.Right.Colour = Col.BLACK;
+                        x.Parent.Colour = Col.BLK;
+                        w.Right.Colour = Col.BLK;
                         rightRotation(T, x.Parent);
                         x = T.root;
                     }
                 }
-                x.Colour = Col.BLACK;
+                x.Colour = Col.BLK;
 
             } // while loop
         } // fixColorsDelete
+
+        */
 
         private void InOrderDisplay(Node current)
         {
@@ -401,6 +405,33 @@ namespace Tree
             return s;
         }
 
+        private string InOrderDisplayColorStr(Node current)
+        {
+            string s = "";
+            if (current != null)
+            {
+                s += InOrderDisplayColorStr(current.Left);
+                s += $"({current.Val}{current.Colour}) ";
+                s += InOrderDisplayColorStr(current.Right);
+            }
+
+            return s;
+        }
+
+        private string InOrderFull(Node current)
+        {
+            string s = "";
+            if (current != null)
+            {
+                s += InOrderFull(current.Left);
+                s += $"({current.Val}, {current.Colour}, h={current.getNodeHeight()})\n";
+                s += InOrderFull(current.Right);
+            }
+
+            return s;
+        }
+
+
         public void DisplayTree()
         {
             if (this.root is null)
@@ -420,6 +451,26 @@ namespace Tree
                 return "";
             }
             else return InOrderDisplayStr(root);
+        }
+
+        public string DisplayTreeColorStr()
+        {
+            if (this.root is null)
+            {
+                Console.WriteLine("The tree is empty! :(");
+                return "";
+            }
+            else return InOrderDisplayColorStr(this.root);
+        }
+
+        public string DisplayFull()
+        {
+            if (this.root is null)
+            {
+                Console.WriteLine("The tree is empty! :(");
+                return "";
+            }
+            else return InOrderFull(this.root);
         }
 
 

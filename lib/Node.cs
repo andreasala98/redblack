@@ -7,7 +7,7 @@ namespace Tree
     /// </summary>
     public enum Col
     {
-        BLACK, RED
+        BLK, RED
     }
 
     /// <summary>
@@ -18,6 +18,7 @@ namespace Tree
         private Node parent, left, right;
         private int val;
         private Col colour;
+        private int height;
 
         //Constructors 
         public Node(int key)
@@ -64,6 +65,12 @@ namespace Tree
             set { colour = value; }
         }
 
+        public int Height
+        {
+            get { return height; }
+            private set { height = value; }
+        }
+
 
         public override string ToString()
         {
@@ -89,12 +96,6 @@ namespace Tree
 
             else return false;
         }
-        /*
-        public bool isRightChild()
-        {
-            bool ans = this.Val == this.Parent.Right.Val ? true : false;
-            return ans;
-        }*/
 
         public bool isRoot()
         { 
@@ -102,7 +103,18 @@ namespace Tree
             else return false;
         }
 
+        public int getNodeHeight()
+        {
+            Node x = this;
+            int height = 0;
 
+            while (x.Parent != null)
+            {
+                x = x.Parent;
+                height++;
+            }
+            return height;
+        }
 
     } //class Node
 
