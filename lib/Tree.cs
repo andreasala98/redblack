@@ -13,7 +13,7 @@ namespace Tree
         {
             this.root = r;
         }
-
+ 
         /// <summary>
         /// Returns the Node with minimum value of a subtree
         /// starting at the given input node
