@@ -15,7 +15,7 @@ dotnet run
 ```
 
 ## License & Credits
-The code is released with the Unlicense (see [LICENSE](./LICENSE)).
+The code made by (A. Sala) is released through the Unlicense (see [LICENSE](./LICENSE)).
 
 I want to thank the authors of the following textbook for writing the pseudocode of the algorithm implemented in this project 
 
