@@ -1,3 +1,5 @@
+<img align="right" width="200" src="https://github.com/andreasala98/redblack/blob/master/logo.png">
+
 # redblack
 
 This project implements the red-black tree data structure, in particular the method to insert new nodes.
