@@ -6,14 +6,19 @@ namespace Tree
     /// <summary>
     /// Class representing a red-BLK tree
     /// </summary>
-    public class RBTree {
+    public class RBTree
+    {
         private Node root;
 
-        public RBTree (Node r)
+        public RBTree(Node r)
         {
             this.root = r;
+            this.root.Left = new Node.NIL();
+            this.root.Right = new Node.NIL();
         }
- 
+
+        public static Node nil = new Node.NIL();
+
         /// <summary>
         /// Returns the Node with minimum value of a subtree
         /// starting at the given input node
@@ -21,7 +26,8 @@ namespace Tree
         /// <param name="x"> Root of the subtree</param>
         public static Node subtreeMinimum(Node x)
         {
-            while(x.Left!=null)
+
+            while (x.Left != nil)
                 x = x.Left;
 
             return x;
@@ -34,7 +40,7 @@ namespace Tree
         /// <param name="x"> Root of the subtree</param>
         public static Node subtreeMaximum(Node x)
         {
-            while (x.Right != null)
+            while (x.Right != nil)
                 x = x.Right;
 
             return x;
@@ -45,19 +51,20 @@ namespace Tree
         /// </summary>
         /// <param name="T">The tree</param>
         /// <param name="x">The pivot of the rotation</param>
-        private static void leftRotation (RBTree T, Node x)
+        private static void leftRotation(RBTree T, Node x)
         {
-            if (x.Right == null) throw new ArgumentException($"Node with key {x.Val} must have a right child!");
+            if (x.Right == nil) throw new ArgumentException($"Node with key {x.Val} must have a right child!");
 
             Node y = x.Right;
             x.Right = y.Left; //Attach the rest of the tree (ONE DIRECTION)
-            
-            if (y.Left is not null){
+
+            if (y.Left != nil)
+            {
                 y.Left.Parent = x; //Attach the rest of the tree (OTHER DIRECTION)
             }
 
             y.Parent = x.Parent;
-            if (x.Parent is null) // x is root node
+            if (x.Parent == nil) // x is root node
             {
                 T.root = y; //Make y the new root
             }
@@ -82,19 +89,20 @@ namespace Tree
         /// <param name="T"> The tree</param>
         /// <param name="x"> Pivot of the rotation</param>
         /// <exception cref="ArgumentException"></exception>
-        private static void rightRotation (RBTree T, Node x)
+        private static void rightRotation(RBTree T, Node x)
         {
-            if (x.Left is null) throw new ArgumentException($"Node with key {x.Val} must have a left child!");
+            if (x.Left == nil) throw new ArgumentException($"Node with key {x.Val} must have a left child!");
 
             Node y = x.Left;
             x.Left = y.Right; //Attach the rest of the tree (ONE DIRECTION)
-            
-            if (y.Right is not null){
+
+            if (y.Right != nil)
+            {
                 y.Right.Parent = x; //Attach the rest of the tree (OTHER DIRECTION)
             }
 
             y.Parent = x.Parent;
-            if (x.Parent is null) // x is root node
+            if (x.Parent == nil) // x is root node
             {
                 T.root = y; //Make y the new root
             }
@@ -114,15 +122,15 @@ namespace Tree
         }
 
 #nullable enable
-        public Node? Search(int key)
+        public Node Search(int key)
         {
             bool found = false;
             Node appo = this.root;
-            Node? obj = null;
+            Node? obj = nil;
 
             while (!found)
             {
-                if (appo == null) break;
+                if (appo == nil) break;
                 if (key < appo.Val) { appo = appo.Left; continue; }
                 if (key > appo.Val) { appo = appo.Right; continue; }
                 if (key == appo.Val)
@@ -132,8 +140,8 @@ namespace Tree
                 }
             }
 
-            if (found ) return obj;
-            else { Console.WriteLine($"Node {key} not found"); return null; }
+            if (found) return obj;
+            else { Console.WriteLine($"Node {key} not found"); return nil; }
         }
 
 #nullable enable
@@ -143,13 +151,14 @@ namespace Tree
         /// </summary>
         /// <param name="T"> The Tree </param>
         /// <param name="newnode"> The Node you want to insert </param>
-        public void Insert (int newnodeVal)
+        public void Insert(int newnodeVal)
         {
             Node newnode = new Node(newnodeVal);
-            Node? y = null;
+            Node y = nil;
             Node x = this.root;
 
-            while (x != null){
+            while (x != nil)
+            {
                 y = x;
                 if (newnode.Val < x.Val)
                     x = x.Left;
@@ -157,7 +166,8 @@ namespace Tree
                     x = x.Right;
             }
             newnode.Parent = y;
-            if (y == null){
+            if (y == nil)
+            {
                 this.root = newnode;
             }
             else if (newnode.Val < y.Val)
@@ -165,18 +175,19 @@ namespace Tree
             else
                 y.Right = newnode;
 
-            newnode.Left = newnode.Right = null;
+            newnode.Left = newnode.Right = nil;
             newnode.Colour = Col.RED;
 
             FixColorsInsert(this, newnode);
 
         }
-      
-        private static void FixColorsInsert(RBTree T, Node z) {
+
+        private static void FixColorsInsert(RBTree T, Node z)
+        {
 
             Node y;
 
-            while (z != T.root && z.Parent is not null && z.Parent.Colour == Col.RED) //It enters here only if we have colour problems
+            while (z != T.root && z.Parent != nil && z.Parent.Colour == Col.RED) //It enters here only if we have colour problems
             {
                 if ((z.Parent).isLeftChild()) // if z parent is a left child
                 {
@@ -222,30 +233,28 @@ namespace Tree
                         leftRotation(T, z.Parent.Parent);
                     }
                 }
-                    
+
             }
             T.root.Colour = Col.BLK;
         }
 #nullable enable
 
-/*
+
         /// <summary>
         /// Replace the subtree rooted in the first Node
         /// with the subtree rooted in the second Node
         /// </summary>
-        /// <param name="T"> the red-BLK tree</param>
+        /// <param name="T"> the <see cref="RBTree"/> </param>
         /// <param name="u"> removed node</param>
         /// <param name="v"> inserted node</param>
         private static void Transplant(RBTree T, Node u, Node v)
         {
-            if (u.Parent == null)
+            if (u.Parent == nil)
                 T.root = v;
-            else if (u == (u.Parent).Left)
-                u.Parent.Left = v;
-            else
-                u.Parent.Right = v;
-            if (v!= null)
-                v.Parent = u.Parent;
+            else if (u.isLeftChild()) u.Parent.Left = v;
+            else u.Parent.Right = v;
+            //if (v != nil)
+            v.Parent = u.Parent;
         }
 
         /// <summary>
@@ -256,17 +265,17 @@ namespace Tree
         public void deleteNode(int dVal)
         {
             Node? d = Search(dVal);
-            if (d==null) return;
+            if (d == nil) return;
             Node y = d;
             Node x;
             Col yOriginalColor = y.Colour;
 
-            if (d.Left == null) // no left child
+            if (d.Left == nil) // no left child
             {
                 x = d.Right;
                 Transplant(this, d, d.Right);
             }
-            else if (d.Right == null) // only left child
+            else if (d.Right == nil) // only left child
             {
                 x = d.Left;
                 Transplant(this, d, d.Left);
@@ -308,7 +317,7 @@ namespace Tree
         {
             Node w;
 
-            while (x.Parent is not null && x.Colour == Col.BLK)
+            while (x != nil && x.Parent != nil && x.Colour == Col.BLK)
             {
                 if (x == x.Parent.Left)
                 {
@@ -380,11 +389,9 @@ namespace Tree
             } // while loop
         } // fixColorsDelete
 
-        */
-
         private void InOrderDisplay(Node current)
         {
-            if (current != null)
+            if (current != nil)
             {
                 InOrderDisplay(current.Left);
                 Console.Write($"({current.Val})");
@@ -395,10 +402,10 @@ namespace Tree
         private string InOrderDisplayStr(Node current)
         {
             string s = "";
-            if (current != null)
+            if (current != nil)
             {
                 s += InOrderDisplayStr(current.Left);
-                s +=$"({current.Val}) ";
+                s += $"({current.Val}) ";
                 s += InOrderDisplayStr(current.Right);
             }
 
@@ -408,7 +415,7 @@ namespace Tree
         private string InOrderDisplayColorStr(Node current)
         {
             string s = "";
-            if (current != null)
+            if (current != nil)
             {
                 s += InOrderDisplayColorStr(current.Left);
                 s += $"({current.Val}{current.Colour}) ";
@@ -421,7 +428,7 @@ namespace Tree
         private string InOrderFull(Node current)
         {
             string s = "";
-            if (current != null)
+            if (current != nil)
             {
                 s += InOrderFull(current.Left);
                 s += $"({current.Val}, {current.Colour}, h={current.getNodeHeight()})\n";
@@ -434,7 +441,7 @@ namespace Tree
 
         public void DisplayTree()
         {
-            if (this.root is null)
+            if (this.root == nil)
             {
                 Console.WriteLine("The tree is empty! :(");
                 return;
@@ -445,7 +452,7 @@ namespace Tree
 
         public string DisplayTreeStr()
         {
-            if (this.root is null)
+            if (this.root == nil)
             {
                 Console.WriteLine("The tree is empty! :(");
                 return "";
@@ -455,7 +462,7 @@ namespace Tree
 
         public string DisplayTreeColorStr()
         {
-            if (this.root is null)
+            if (this.root == nil)
             {
                 Console.WriteLine("The tree is empty! :(");
                 return "";
@@ -473,6 +480,42 @@ namespace Tree
             else return InOrderFull(this.root);
         }
 
+
+        public void Delete2(Node z)
+        {
+            Node nil = new Node.NIL();
+            Node y = z;
+            Col yOrCol = y.Colour;
+            if (z.Left == nil) {; }
+
+        }
+
+        /*
+        RB-DELETE(T, z)
+
+  if z.left == T.NIL //no children or only right
+      x = z.right
+      RB-TRANSPLANT(T, z, z.right)
+  else if z.right == T.NIL // only left child
+      x = z.left
+      RB-TRANSPLANT(T, z, z.left)
+  else // both children
+      y = MINIMUM(z.right)
+      y_orignal_color = y.color
+      x = y.right
+      if y.parent == z // y is direct child of z
+          x.parent = y
+      else
+          RB-TRANSPLANT(T, y, y.right)
+          y.right = z.right
+          y.right.parent = y
+      RB-TRANSPLANT(T, z, y)
+      y.left = z.left
+      y.left.parent = y
+      y.color = z.color
+  if y_orignal_color == black
+      RB-DELETE-FIXUP(T, x)
+        */
 
     } //class
 } //namespace

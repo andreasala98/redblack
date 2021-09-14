@@ -1,13 +1,13 @@
 using System;
 
-namespace Tree 
+namespace Tree
 {
     /// <summary>
     /// Enumeration of all possible oolours of a node
     /// </summary>
     public enum Col
     {
-        BLK, RED
+        BLK = 1, RED = -1
     }
 
     /// <summary>
@@ -21,9 +21,16 @@ namespace Tree
         private int height;
 
         //Constructors 
+        public Node()
+        {
+            this.left = new NIL();
+            this.right = new NIL();
+        }
         public Node(int key)
         {
             this.val = key;
+            this.left = new NIL();
+            this.right = new NIL();
         }
 
         public Node(int key, Col colr)
@@ -31,12 +38,13 @@ namespace Tree
             this.val = key;
             this.colour = colr;
         }
-        // public Node(int v) : this(v, null, null) { }
 
-        // public Node() : this(0, null, null) { }
+        public class NIL : Node
+        { }
+
+
 
         // Properties
-
         public Node Left
         {
             get { return left; }
@@ -77,9 +85,11 @@ namespace Tree
             return $"Val: {this.Val}";
         }
 
+        public static Node nil = new NIL();
+
         public bool isLeftChild()
         {
-            if (this.Parent.Left != null)
+            if (this.Parent.Left != nil)
                 if (this == this.Parent.Left)
                     return true;
                 else return false;
@@ -89,7 +99,7 @@ namespace Tree
 
         public bool isRightChild()
         {
-            if (this.Parent.Right is not null)
+            if (this.Parent.Right != nil)
                 if (this == this.Parent.Right)
                     return true;
                 else return false;
@@ -98,8 +108,8 @@ namespace Tree
         }
 
         public bool isRoot()
-        { 
-            if (Parent is null) return true;
+        {
+            if (Parent == nil) return true;
             else return false;
         }
 
@@ -108,12 +118,20 @@ namespace Tree
             Node x = this;
             int height = 0;
 
-            while (x.Parent != null)
+            while (x.Parent != nil)
             {
                 x = x.Parent;
                 height++;
             }
             return height;
+        }
+
+
+        public void Recolor()
+        {
+            if (this.Colour == Col.BLK) this.Colour = Col.RED;
+            else if (this.Colour == Col.RED) this.Colour = Col.BLK;
+            return;
         }
 
     } //class Node
