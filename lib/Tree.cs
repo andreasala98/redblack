@@ -17,11 +17,7 @@ namespace Tree
             this.root.Right = new Node.NIL();
         }
 
-<<<<<<< HEAD
         public static Node nil = new Node.NIL();
-
-=======
->>>>>>> parent of 8aeffea (Commit in del branch)
         /// <summary>
         /// Returns the Node with minimum value of a subtree
         /// starting at the given input node
