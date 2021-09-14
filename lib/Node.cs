@@ -23,14 +23,14 @@ namespace Tree
         //Constructors 
         public Node()
         {
-            this.left = new NIL();
-            this.right = new NIL();
+            this.left = null;
+            this.right = null;
         }
         public Node(int key)
         {
             this.val = key;
-            this.left = new NIL();
-            this.right = new NIL();
+            this.left = null;
+            this.right = null;
         }
 
         public Node(int key, Col colr)
@@ -38,10 +38,6 @@ namespace Tree
             this.val = key;
             this.colour = colr;
         }
-
-        public class NIL : Node
-        { }
-
 
 
         // Properties
@@ -85,11 +81,9 @@ namespace Tree
             return $"Val: {this.Val}";
         }
 
-        public static Node nil = new NIL();
-
         public bool isLeftChild()
         {
-            if (this.Parent.Left != nil)
+            if (this.Parent.Left != null)
                 if (this == this.Parent.Left)
                     return true;
                 else return false;
@@ -99,7 +93,7 @@ namespace Tree
 
         public bool isRightChild()
         {
-            if (this.Parent.Right != nil)
+            if (this.Parent.Right != null)
                 if (this == this.Parent.Right)
                     return true;
                 else return false;
@@ -109,7 +103,7 @@ namespace Tree
 
         public bool isRoot()
         {
-            if (Parent == nil) return true;
+            if (Parent == null) return true;
             else return false;
         }
 
@@ -118,7 +112,7 @@ namespace Tree
             Node x = this;
             int height = 0;
 
-            while (x.Parent != nil)
+            while (x.Parent != null)
             {
                 x = x.Parent;
                 height++;

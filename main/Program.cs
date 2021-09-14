@@ -37,7 +37,7 @@ namespace main
                 if (ans == "y")
                 {
                     Console.Write("Insert node value: ");
-                    
+
                     try
                     {
                         var val = Convert.ToInt32(Console.ReadLine());
@@ -49,7 +49,7 @@ namespace main
                         Console.WriteLine("Error in reading node key. Deleting this node.");
                         continue;
                     }
-    
+
                 }
                 else if (ans == "n")
                 {
