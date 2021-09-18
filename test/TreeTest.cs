@@ -48,8 +48,8 @@ namespace test
             tree.Insert(13);
             tree.Insert(1);
 
-            Assert.True(tree.DisplayTreeColorStr() == "(1RED) (3BLACK) (4RED) (5BLACK) (7BLACK) (8BLACK) (9RED) (13RED) (15BLACK) ",
-                    "TestInsertColors failed!");
+            Assert.True(tree.DisplayTreeColorStr() == "(1RED) (3BLK) (4RED) (5BLK) (7BLK) (8BLK) (9RED) (13RED) (15BLK) ",
+                    $"TestInsertColors failed! {tree.DisplayTreeColorStr()}");
             return;
         }
     }

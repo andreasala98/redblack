@@ -39,7 +39,8 @@ namespace Tree
     /// <summary>
     /// Class representing a red-black tree
     /// </summary>
-    public class RBTree {
+    public class RBTree
+    {
 
         /// <summary>
         /// THe root node of the red black tree
@@ -49,9 +50,9 @@ namespace Tree
         /// <summary>
         /// Constructor passing the root node
         /// </summary>
-        public RBTree (Node r)
+        public RBTree(Node r)
             => this.root = r;
-        
+
 
         /// <summary>
         /// Returns the Node with minimum value of a subtree
@@ -60,7 +61,7 @@ namespace Tree
         /// <param name="x"> Root of the subtree</param>
         public static Node subtreeMinimum(Node x)
         {
-            while(x.Left!=null)  x = x.Left;
+            while (x.Left != null) x = x.Left;
             return x;
         }
 
@@ -71,7 +72,7 @@ namespace Tree
         /// <param name="x"> Root of the subtree</param>
         public static Node subtreeMaximum(Node x)
         {
-            while (x.Right != null)  x = x.Right;
+            while (x.Right != null) x = x.Right;
             return x;
         }
 
@@ -80,13 +81,14 @@ namespace Tree
         /// </summary>
         /// <param name="T">The tree</param>
         /// <param name="x">The pivot of the rotation</param>
-        private static void leftRotation (RBTree T, Node x)
+        private static void leftRotation(RBTree T, Node x)
         {
             if (x.Right == null) throw new ArgumentException($"Node with key {x.Val} must have a right child!");
 
             Node y = x.Right;
             x.Right = y.Left; //Attach the rest of the tree (ONE DIRECTION)
-            if (y.Left is not null){
+            if (y.Left is not null)
+            {
                 y.Left.Parent = x; //Attach the rest of the tree (OTHER DIRECTION)
             }
             y.Parent = x.Parent;
@@ -114,14 +116,15 @@ namespace Tree
         /// <param name="T"> The tree</param>
         /// <param name="x"> Pivot of the rotation</param>
         /// <exception cref="ArgumentException"></exception>
-        private static void rightRotation (RBTree T, Node x)
+        private static void rightRotation(RBTree T, Node x)
         {
             if (x.Left is null) throw new ArgumentException($"Node with key {x.Val} must have a left child!");
 
             Node y = x.Left;
             x.Left = y.Right; //Attach the rest of the tree (ONE DIRECTION)
-            
-            if (y.Right is not null){
+
+            if (y.Right is not null)
+            {
                 y.Right.Parent = x; //Attach the rest of the tree (OTHER DIRECTION)
             }
             y.Parent = x.Parent;
@@ -154,7 +157,7 @@ namespace Tree
                 if (appo == null) break;
                 if (key < appo.Val) { appo = appo.Left; continue; }
                 if (key > appo.Val) { appo = appo.Right; continue; }
-                if (key == appo.Val) {found = true; obj = appo; }
+                if (key == appo.Val) { found = true; obj = appo; }
             }
 
             if (found) return obj;
@@ -166,13 +169,14 @@ namespace Tree
         /// Note that colours will be automatically balanced
         /// </summary>
         /// <param name="newnode"> The value of the Node you want to insert </param>
-        public void Insert (int newnodeVal)
+        public void Insert(int newnodeVal)
         {
             Node newnode = new Node(newnodeVal);
             Node? y = null;
             Node x = this.root;
 
-            while (x != null){
+            while (x != null)
+            {
                 y = x;
                 if (newnode.Val < x.Val)
                     x = x.Left;
@@ -180,7 +184,8 @@ namespace Tree
                     x = x.Right;
             }
             newnode.Parent = y;
-            if (y == null){
+            if (y == null)
+            {
                 this.root = newnode;
             }
             else if (newnode.Val < y.Val)
@@ -194,12 +199,13 @@ namespace Tree
             FixColorsInsert(this, newnode);
 
         }
-      
+
         /// <summary>
         /// Recolors nodes after insertion
         /// (only if needed)
         /// </summary>
-        private static void FixColorsInsert(RBTree T, Node z) {
+        private static void FixColorsInsert(RBTree T, Node z)
+        {
 
             Node y;
 
@@ -249,11 +255,10 @@ namespace Tree
                         leftRotation(T, z.Parent.Parent);
                     }
                 }
-                    
+
             }
             T.root.Colour = Col.BLK;
         }
-#nullable enable
 
         // Some printing functions
 
@@ -273,7 +278,7 @@ namespace Tree
             if (current != null)
             {
                 s += InOrderDisplayStr(current.Left);
-                s +=$"({current.Val}) ";
+                s += $"({current.Val}) ";
                 s += InOrderDisplayStr(current.Right);
             }
             return s;
@@ -344,6 +349,57 @@ namespace Tree
             }
             else return InOrderFull(this.root);
         }
+
+        /*
+                public static RBTree joinRight(Node left, int key, Node right)
+                {
+                    if (2 * Node.getBlackHeight(left) == (int)(2 * Node.getBlackHeight(left) / 2) * 2)
+                    {
+                        Node newroot = new Node(key, Col.RED, left, right);
+                        return new RBTree(newroot);
+                    }
+                    else
+                    {
+                        Node T = new Node(key: left.Val, colr: left.Colour,
+                                          l: left.Left, r: joinRight(left.Right, key, right).root);
+                        RBTree Tprime = new RBTree(T);
+                        if (left.Colour == Col.RED && T.Right.Colour == Col.RED && T.Right.Right.Colour == Col.RED)
+                        {
+                            T.Right.Right.Colour = Col.BLK;
+                            leftRotation(Tprime, Tprime.root);
+                            return Tprime;
+                        }
+                        else return Tprime;
+                    }
+                }
+
+                public static RBTree joinLeft(Node left, int key, Node right)
+                {
+                    if (2 * Node.getBlackHeight(right) == (int)(2 * Node.getBlackHeight(right) / 2) * 2)
+                    {
+                        Node newroot = new Node(key, Col.RED, left, right);
+                        return new RBTree(newroot);
+                    }
+                    else
+                    {
+                        Node T = new Node(key: right.Val, colr: right.Colour,
+                                          l: right.Left, r: joinRight(right.Right, key, right).root);
+                        RBTree Tprime = new RBTree(T);
+                        if (right.Colour == Col.RED && T.Left.Colour == Col.RED && T.Left.Left.Colour == Col.RED)
+                        {
+                            T.Left.Left.Colour = Col.BLK;
+                            rightRotation(Tprime, Tprime.root);
+                            return Tprime;
+                        }
+                        else return Tprime;
+                    }
+                }
+
+                public static RBTree join(RBTree left, int k, RBTree right)
+                {
+
+                }
+        */
 
 
     } //class

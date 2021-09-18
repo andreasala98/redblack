@@ -32,7 +32,7 @@ For more information, please refer to <https://unlicense.org>
 
 using System;
 
-namespace Tree 
+namespace Tree
 {
     /// <summary>
     /// Enumeration of all possible Colours of a node
@@ -50,14 +50,22 @@ namespace Tree
 
         //Constructors 
         public Node(int key)
-          =>  this.val = key;
-        
+          => this.val = key;
+
         public Node(int key, Col colr)
         {
             this.val = key;
             this.colour = colr;
         }
-       
+
+        public Node(int key, Col colr, Node l, Node r)
+        {
+            this.val = key;
+            this.colour = colr;
+            this.Left = l;
+            this.Right = r;
+        }
+
         // Properties
         public Node Left
         {
@@ -102,20 +110,22 @@ namespace Tree
         {
             if (this.Parent.Left != null)
                 if (this == this.Parent.Left)
-                    return true; else return false;
+                    return true;
+                else return false;
             else return false;
         }
 
         public bool isRightChild()
         {
             if (this.Parent.Right is not null)
-                if (this == this.Parent.Right) 
-                return true; else return false;
+                if (this == this.Parent.Right)
+                    return true;
+                else return false;
             else return false;
         }
 
         public bool isRoot()
-        { 
+        {
             if (Parent is null) return true;
             else return false;
         }
@@ -130,6 +140,21 @@ namespace Tree
                 height++;
             }
             return height;
+        }
+
+        public static int getBlackHeight(Node x)
+        {
+            //Assuming this is a CORRECT RB tree
+            int bh = 0;
+            while (x.Left == null)
+            {
+                if (x.Colour == Col.BLK)
+                    bh++;
+                x = x.Left;
+
+            }
+
+            return bh;
         }
 
     } //class Node
