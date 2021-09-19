@@ -37,7 +37,7 @@ namespace main
                 if (ans == "y")
                 {
                     Console.Write("Insert node value: ");
-                    
+
                     try
                     {
                         var val = Convert.ToInt32(Console.ReadLine());
@@ -49,7 +49,7 @@ namespace main
                         Console.WriteLine("Error in reading node key. Deleting this node.");
                         continue;
                     }
-    
+
                 }
                 else if (ans == "n")
                 {
@@ -62,10 +62,30 @@ namespace main
                 }
             }
 
+            while (true)
+            {
+                Console.Write("Do you want to search a node?\n(y for yes, anything else for no): ");
+                var searchAns = Console.ReadLine();
 
+                if (searchAns == "y")
+                {
+                    Console.Write("Insert node value: ");
+                    var nodeS = Convert.ToInt32(Console.ReadLine());
+                    Node src = tree.Search(nodeS);
+
+                    if (src is not null)
+                        Console.WriteLine($"{src.Colour} node {src.Val} found at height {src.getNodeHeight()}!");
+                }
+                else if (searchAns == "n") break;
+                else continue;
+            }
+
+            Console.WriteLine("\nPrinting tree....\n\n");
             tree.DisplayTree();
             Console.WriteLine("\n##############################\n");
             Console.WriteLine(tree.DisplayFull());
+
+            Console.WriteLine("\n\n See you soon!\n");
 
             return;
         }

@@ -161,7 +161,7 @@ namespace Tree
             }
 
             if (found) return obj;
-            else { Console.WriteLine($"Node {key} not found"); return null; }
+            else { Console.WriteLine($"Node {key} not found! :("); return null; }
         }
 
         /// <summary>
